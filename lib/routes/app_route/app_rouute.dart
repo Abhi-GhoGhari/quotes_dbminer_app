@@ -1,13 +1,15 @@
 import 'package:quotes_dbminer_app/view/screen/page/home_page/home_page.dart';
-import 'package:quotes_dbminer_app/view/screen/page/splash_screen/splash_screen.dart';
+import 'package:quotes_dbminer_app/view/screen/page/like_page/like_page.dart';
 import '../../headers.dart';
 
 class AppRoutes {
-  static const String splashscreen = '/';
-  static const String homepage = 'home_page';
+  // static const String splashscreen = '/';
+  static const String homepage = '/';
+  static const String likepage = 'like_page';
 
-  static Map<String, WidgetBuilder> routes = {
-    splashscreen: (context) => const SplashScreen(),
-    homepage: (context) => const HomePage(),
+  static Map<String, Widget Function(BuildContext)> routes = {
+    // splashscreen: (context) => const SplashScreen(),
+    '/': (context) => const HomePage(),
+    'like_page': (context) => const LikePage(),
   };
 }
