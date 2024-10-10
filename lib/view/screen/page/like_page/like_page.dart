@@ -73,10 +73,10 @@ class LikePage extends StatelessWidget {
                           child: IconButton(
                             onPressed: () async {
                               await Provider.of<LikeController>(context,
-                                      listen: false)
-                                  .likeQuote(
-                                q: mutable.allFavQuotes[index],
-                              );
+                                  listen: false);
+                              //     .likeQuote(
+                              //   q: mutable.allFavQuotes[index],
+                              // );
                             },
                             icon: mutable.allFavQuotes.contains(e)
                                 ? const Icon(Icons.favorite)

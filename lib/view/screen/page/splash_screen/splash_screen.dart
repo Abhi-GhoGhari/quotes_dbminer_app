@@ -1,5 +1,5 @@
 // import 'package:flutter/material.dart';
-// import 'package:quotes_dbminer_app/routes/app_route/app_rouute.dart';
+// import 'package:quotes_dbminer_app/routes/app_route/app_route.dart';
 //
 // class SplashScreen extends StatelessWidget {
 //   const SplashScreen({super.key});

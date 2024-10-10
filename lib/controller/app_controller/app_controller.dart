@@ -17,4 +17,9 @@ class QuoteController extends ChangeNotifier {
     allFavQuotes = await LikeDataBase.likeDataBase.getAllData();
     notifyListeners();
   }
+
+  Future<void> addFavQuote({required Qutoemodal q}) async {
+    await LikeDataBase.likeDataBase.addFavQuote(allQuotes[0]);
+    notifyListeners();
+  }
 }

@@ -1,5 +1,3 @@
-import 'dart:math';
-
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/gestures.dart';
 import 'package:flutter/material.dart';
@@ -8,7 +6,7 @@ import 'package:provider/provider.dart';
 import 'package:quotes_dbminer_app/controller/app_controller/app_controller.dart';
 import 'package:quotes_dbminer_app/controller/like_database/like_database.dart';
 import 'package:quotes_dbminer_app/controller/theam_controller/theam_controller.dart';
-import 'package:quotes_dbminer_app/routes/app_route/app_rouute.dart';
+import 'package:quotes_dbminer_app/routes/app_route/app_route.dart';
 
 class HomePage extends StatelessWidget {
   const HomePage({super.key});
@@ -21,7 +19,10 @@ class HomePage extends StatelessWidget {
     QuoteController unmutable =
         Provider.of<QuoteController>(context, listen: false);
 
-    bool isdark = false;
+    // Access the theme controller to check current theme
+    TheamController themeController = Provider.of<TheamController>(context);
+    bool isDark = themeController.isDark;
+
     return Scaffold(
       appBar: AppBar(
         title: GestureDetector(
@@ -39,13 +40,14 @@ class HomePage extends StatelessWidget {
         actions: [
           Row(
             children: [
+              // Switch for theme toggle
               Switch(
                 dragStartBehavior: DragStartBehavior.start,
-                value: isdark,
-                onChanged: (value) => Provider.of<TheamController>(
-                  context,
-                  listen: false,
-                ).changeTheme(),
+                value: isDark,
+                onChanged: (value) {
+                  // Call the method in TheamController to change theme
+                  themeController.changeTheme();
+                },
               ),
               IconButton(
                 onPressed: () {
@@ -55,8 +57,7 @@ class HomePage extends StatelessWidget {
                   );
                 },
                 icon: Icon(
-                  mutable.allQuotes.contains(e)
-                      // favQuotes.contains(e)
+                  favQuotes.contains(mutable.allQuotes)
                       ? Icons.favorite
                       : Icons.favorite_border,
                 ),
@@ -73,9 +74,6 @@ class HomePage extends StatelessWidget {
                 : const AssetImage("lib/assets/images/light.png"),
             fit: BoxFit.cover,
           ),
-          // color: Provider.of<TheamController>(context).isDark
-          //     ? Colors.orange
-          //     : Colors.orangeAccent,
         ),
         child: Padding(
           padding: const EdgeInsets.all(10),
@@ -90,7 +88,6 @@ class HomePage extends StatelessWidget {
                     child: GlassContainer(
                       height: size.height * 0.2,
                       width: double.infinity,
-                      // margin: const EdgeInsets.all(3),
                       borderRadius: BorderRadius.circular(20),
                       color: Colors.black26,
                       blur: 30,
@@ -123,15 +120,25 @@ class HomePage extends StatelessWidget {
                               alignment: Alignment.bottomRight,
                               child: IconButton(
                                 onPressed: () async {
-                                  await Provider.of<LikeController>(context,
+                                  unmutable.addFavQuote(
+                                      q: mutable.allQuotes[index]);
+                                  Provider.of<LikeController>(context,
                                           listen: false)
-                                      .likeQuote(
-                                    q: mutable.allQuotes[index],
-                                  );
+                                      .likeQuote();
+                                  // await Provider.of<LikeController>(context,
+                                  //         listen: false)
+                                  //     .likeQuote(
+                                  //   q: mutable.allQuotes[index],
+                                  // );
                                 },
-                                icon: mutable.allQuotes.contains(e)
-                                    ? const Icon(Icons.favorite)
-                                    : const Icon(Icons.favorite_border),
+                                // Use the correct logic to check if the quote is liked
+                                icon:
+                                    // favQuotes.contains(
+                                    //   mutable.allQuotes[index],
+                                    // )
+                                    (Provider.of<LikeController>(context).Like)
+                                        ? const Icon(Icons.favorite)
+                                        : const Icon(Icons.favorite_border),
                               ),
                             )
                           ],
